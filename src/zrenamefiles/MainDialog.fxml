@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane bottom="$null" prefHeight="600.0" prefWidth="800.0" top="$null" xmlns:fx="http://javafx.com/fxml" fx:controller="zrenamefiles.MainDialogController">
+  <center>
+    <GridPane alignment="CENTER" hgap="5.0" vgap="5.0">
+      <HBox spacing="10.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+        <Button onAction="#handleChooseFilesAction" text="Add files ..." />
+        <Button text="Remove selected files" />
+        <Button text="Remove all files" />
+        <padding>
+          <Insets bottom="15.0" right="12.0" top="15.0" fx:id="x1" />
+        </padding>
+      </HBox>
+      <HBox padding="$x1" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+        <Button onAction="#handlePreviewAction" text="Preview" />
+        <Button onAction="#handleRenameAction" mnemonicParsing="false" text="Start rename" />
+      </HBox>
+      <HBox GridPane.columnIndex="0" GridPane.rowIndex="1">
+        <CheckBox fx:id="chkOriginalFullPath" onAction="#handleCheckOriginalListViewFullPath" text="Show File Full Path" />
+      </HBox>
+      <HBox GridPane.columnIndex="1" GridPane.rowIndex="1">
+        <CheckBox fx:id="chkNewFullPath" onAction="#handleCheckPreviewListViewFullPath" text="Show File Full Path" />
+      </HBox>
+      <ListView fx:id="filesToBeRenamed" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+      <ListView fx:id="filesWillBeRenamedTo" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <columnConstraints>
+        <ColumnConstraints percentWidth="50.0" />
+        <ColumnConstraints percentWidth="50.0" />
+      </columnConstraints>
+      <padding>
+        <Insets bottom="15.0" left="12.0" right="12.0" top="15.0" />
+      </padding>
+      <rowConstraints>
+        <RowConstraints fillHeight="false" maxHeight="-Infinity" minHeight="10.0" vgrow="SOMETIMES" />
+        <RowConstraints fillHeight="false" maxHeight="-Infinity" minHeight="10.0" percentHeight="-1.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="-1.0" percentHeight="-1.0" vgrow="ALWAYS" />
+      </rowConstraints>
+    </GridPane>
+  </center>
+</BorderPane>
