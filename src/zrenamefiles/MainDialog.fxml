@@ -6,8 +6,28 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<BorderPane bottom="$null" prefHeight="600.0" prefWidth="800.0" top="$null" xmlns:fx="http://javafx.com/fxml" fx:controller="zrenamefiles.MainDialogController">
+<BorderPane prefHeight="600.0" prefWidth="800.0" top="$null" xmlns:fx="http://javafx.com/fxml" fx:controller="zrenamefiles.MainDialogController">
+  <bottom>
+    <HBox alignment="TOP_LEFT" prefHeight="-1.0" prefWidth="-1.0" spacing="10.0">
+      <children>
+        <ProgressBar fx:id="pgrRenaming" prefWidth="386.0" progress="0.0">
+          <HBox.margin>
+            <Insets />
+          </HBox.margin>
+        </ProgressBar>
+        <Label fx:id="lblRenamingStatus" text="Status">
+          <font>
+            <Font size="10.0" />
+          </font>
+        </Label>
+      </children>
+      <padding>
+        <Insets bottom="15.0" left="12.0" right="12.0" />
+      </padding>
+    </HBox>
+  </bottom>
   <center>
     <GridPane alignment="CENTER" hgap="5.0" vgap="5.0">
       <HBox spacing="10.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
@@ -20,7 +40,7 @@
       </HBox>
       <HBox padding="$x1" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
         <Button onAction="#handlePreviewAction" text="Preview" />
-        <Button onAction="#handleRenameAction" mnemonicParsing="false" text="Start rename" />
+        <Button fx:id="btnRename" mnemonicParsing="false" onAction="#handleRenameAction" text="Start rename" />
       </HBox>
       <HBox GridPane.columnIndex="0" GridPane.rowIndex="1">
         <CheckBox fx:id="chkOriginalFullPath" onAction="#handleCheckOriginalListViewFullPath" text="Show File Full Path" />

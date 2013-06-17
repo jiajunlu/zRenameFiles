@@ -16,8 +16,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
@@ -46,6 +50,15 @@ public class MainDialogController implements Initializable {
     private CheckBox chkNewFullPath;
     
     @FXML
+    private Label lblRenamingStatus;
+    
+    @FXML
+    private ProgressBar pgrRenaming;
+    
+    @FXML
+    private Button btnRename;
+    
+    @FXML
     private void handleChooseFilesAction(ActionEvent event) {
         // ObservableList<String> items = FXCollections.observableArrayList ();
                 // ("陆家骏", "1吴 菲abc", "顿a顿b", "呦1a呦");
@@ -59,6 +72,7 @@ public class MainDialogController implements Initializable {
         }
         
         updateOriginalFileListView();
+        btnRename.setDisable(true);
     }
     
     @FXML
@@ -79,17 +93,26 @@ public class MainDialogController implements Initializable {
         }
         
         updateNewFileListView();
+        btnRename.setDisable(false);
+        
     }
     
     @FXML
     private void handleRenameAction(ActionEvent event) {
         try {
             for ( int i = 0; i < model.originalFileList.size(); i++) {
+                
+                
+                
                 File f1 = new File(model.originalFileList.get(i));
                 File f2 = new File(model.newFileList.get(i));
                 
                 if(!f1.exists()) {
                     System.out.printf("File %s does not exist.", f1.getAbsolutePath());
+                    lblRenamingStatus.setTextFill(Color.RED);
+                    lblRenamingStatus.setText("Error: File" + f1.getAbsolutePath() + " does not exist!");
+                    btnRename.setDisable(true);
+                    return;
                 }
                 boolean success = f1.renameTo(f2);
                 if(success){
@@ -97,12 +120,16 @@ public class MainDialogController implements Initializable {
 		}else{
 			System.out.println("Rename failed");
 		}
+                
+                pgrRenaming.setProgress((i+1)/model.originalFileList.size());
             }
         }
         catch (Exception e1) {
             e1.printStackTrace();
         }
-        // updateNewFileListView();
+        
+        lblRenamingStatus.setText("Rename Done");
+        btnRename.setDisable(true);
     }
     
     @FXML
@@ -127,6 +154,10 @@ public class MainDialogController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         model = new RenameFilesModel();
         updateView();
+        
+        lblRenamingStatus.setText("");
+        pgrRenaming.setProgress(0);
+        btnRename.setDisable(true);
     }    
     
     private void updateView() {
@@ -149,6 +180,11 @@ public class MainDialogController implements Initializable {
         }
         
         filesToBeRenamed.setItems(items);
+        
+        // reset status
+        pgrRenaming.setProgress(0);
+        lblRenamingStatus.setText("");
+        lblRenamingStatus.setTextFill(Color.BLACK);
     }
     
     private void updateNewFileListView()
