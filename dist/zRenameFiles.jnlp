@@ -11,8 +11,8 @@
   </resources>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="lib/pinyin4j-2.5.0.jar" size="199889" download="eager" />
-    <jar href="zRenameFiles.jar" size="25286" download="eager" />
+    <jar href="lib/pinyin4j-2.5.0.jar" size="199887" download="eager" />
+    <jar href="zRenameFiles.jar" size="25293" download="eager" />
   </resources>
 <security>
   <all-permissions/>
