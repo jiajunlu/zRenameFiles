@@ -24,8 +24,10 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import net.sourceforge.pinyin4j.PinyinHelper;
+import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
 import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
+import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 
 /**
@@ -79,20 +81,25 @@ public class MainDialogController implements Initializable {
     private void handlePreviewAction(ActionEvent event) {
         HanyuPinyinOutputFormat outputFormat = new HanyuPinyinOutputFormat();
         outputFormat.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
+        outputFormat.setVCharType(HanyuPinyinVCharType.WITH_V);
+        outputFormat.setCaseType(HanyuPinyinCaseType.UPPERCASE);
         
         model.newFileList.clear();
+        int i = 0;
         for (String item : model.originalFileList) {
             File f = new File(item);
             String parentFolder = f.getParent();
             String fileName = f.getName();
            
             String pinyinStr = convertChineseStringToPinyinString(fileName, outputFormat);
-            Path newFullPath = Paths.get(parentFolder, pinyinStr);
-            model.newFileList.add(newFullPath.toString());
-            
+            File newFullPath = new File(parentFolder, pinyinStr);
+            model.newFileList.add(newFullPath.getAbsolutePath());
+            pgrRenaming.setProgress((i+1)/model.originalFileList.size());
+            i++;
         }
         
         updateNewFileListView();
+        lblRenamingStatus.setText("Preview Done");
         btnRename.setDisable(false);
         
     }
@@ -101,8 +108,6 @@ public class MainDialogController implements Initializable {
     private void handleRenameAction(ActionEvent event) {
         try {
             for ( int i = 0; i < model.originalFileList.size(); i++) {
-                
-                
                 
                 File f1 = new File(model.originalFileList.get(i));
                 File f2 = new File(model.newFileList.get(i));
